@@ -1,268 +1,154 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ziyaretçi Girişi</title>
 <style>
-#bgys-app * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
-#bgys-app { max-width: 640px; margin: 0 auto; padding: 16px; color: #1a1a1a; }
-#bgys-app .tab-bar { display: flex; gap: 8px; margin-bottom: 20px; border-bottom: 1px solid #e0e0e0; padding-bottom: 12px; }
-#bgys-app .tab-btn { padding: 7px 16px; border-radius: 6px; border: 1px solid #d0d0d0; background: transparent; font-size: 13px; cursor: pointer; color: #555; }
-#bgys-app .tab-btn.active { background: #f0f0f0; color: #1a1a1a; font-weight: 600; border-color: #999; }
-#bgys-app .card { background: #fff; border: 1px solid #e0e0e0; border-radius: 10px; padding: 18px 20px; margin-bottom: 14px; }
-#bgys-app .sec-lbl { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px; font-weight: 600; }
-#bgys-app .fg { margin-bottom: 12px; }
-#bgys-app .fg label { display: block; font-size: 13px; color: #555; margin-bottom: 5px; }
-#bgys-app .fg input, #bgys-app .fg select { width: 100%; padding: 8px 10px; border-radius: 6px; border: 1px solid #ccc; font-size: 14px; color: #1a1a1a; font-family: 'Segoe UI', sans-serif; }
-#bgys-app .policy-box { background: #f7f7f7; border-radius: 6px; border: 1px solid #e0e0e0; padding: 12px; font-size: 13px; color: #555; line-height: 1.7; max-height: 160px; overflow-y: auto; margin-bottom: 14px; }
-#bgys-app .chk-row { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px; cursor: pointer; }
-#bgys-app .chk-row input[type=checkbox] { margin-top: 2px; cursor: pointer; }
-#bgys-app .chk-row span { font-size: 13px; color: #444; line-height: 1.5; }
-#bgys-app .btn-primary { display: block; width: 100%; padding: 12px; border-radius: 6px; border: none; background: #0078d4; color: #fff; font-size: 14px; font-weight: 600; cursor: pointer; font-family: 'Segoe UI', sans-serif; }
-#bgys-app .btn-primary:hover { background: #106ebe; }
-#bgys-app .btn-primary:disabled { background: #a0c4e8; cursor: not-allowed; }
-#bgys-app .btn-sec { display: block; width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #ccc; background: #fff; font-size: 14px; cursor: pointer; font-family: 'Segoe UI', sans-serif; margin-top: 10px; color: #1a1a1a; }
-#bgys-app .alert { border-radius: 6px; padding: 12px 16px; font-size: 14px; line-height: 1.6; margin-bottom: 12px; }
-#bgys-app .alert-success { background: #dff6dd; color: #1e6e1e; border: 1px solid #a3d9a3; }
-#bgys-app .alert-info { background: #dce9f7; color: #0a3f6e; border: 1px solid #9dc4e8; }
-#bgys-app .badge { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 99px; font-weight: 600; }
-#bgys-app .badge-ok { background: #dff6dd; color: #1e6e1e; }
-#bgys-app .badge-warn { background: #fff4ce; color: #7a5900; }
-#bgys-app .badge-type { background: #dce9f7; color: #0a3f6e; }
-#bgys-app .stat-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 14px; }
-#bgys-app .stat-card { background: #f7f7f7; border-radius: 8px; padding: 12px 14px; }
-#bgys-app .stat-num { font-size: 22px; font-weight: 700; color: #1a1a1a; }
-#bgys-app .stat-lbl { font-size: 12px; color: #888; margin-top: 2px; }
-#bgys-app .log-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f0f0f0; gap: 8px; }
-#bgys-app .log-row:last-child { border-bottom: none; }
-#bgys-app .avatar { width: 36px; height: 36px; border-radius: 50%; background: #dce9f7; display: inline-flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: #0a3f6e; flex-shrink: 0; }
-#bgys-app .log-name { font-size: 14px; font-weight: 600; color: #1a1a1a; }
-#bgys-app .log-meta { font-size: 12px; color: #888; margin-top: 2px; }
-#bgys-app .search-bar { width: 100%; padding: 8px 10px; border-radius: 6px; border: 1px solid #ccc; font-size: 14px; margin-bottom: 12px; font-family: 'Segoe UI', sans-serif; color: #1a1a1a; }
-#bgys-app .text-center { text-align: center; }
-#bgys-app .big-icon { font-size: 36px; display: block; margin-bottom: 8px; }
-#bgys-app .screen { display: none; }
-#bgys-app .screen.active { display: block; }
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
+body { background: #f3f3f3; min-height: 100vh; display: flex; align-items: flex-start; justify-content: center; padding: 24px 16px; }
+.app { max-width: 560px; width: 100%; }
+.logo-bar { text-align: center; margin-bottom: 20px; }
+.logo-bar h1 { font-size: 18px; font-weight: 700; color: #1a1a1a; }
+.logo-bar p { font-size: 13px; color: #777; margin-top: 4px; }
+.card { background: #fff; border: 1px solid #e0e0e0; border-radius: 10px; padding: 18px 20px; margin-bottom: 14px; }
+.sec-lbl { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px; font-weight: 600; }
+.fg { margin-bottom: 12px; }
+.fg label { display: block; font-size: 13px; color: #555; margin-bottom: 5px; }
+.fg input, .fg select { width: 100%; padding: 9px 11px; border-radius: 6px; border: 1px solid #ccc; font-size: 14px; color: #1a1a1a; font-family: 'Segoe UI', sans-serif; }
+.fg input:focus, .fg select:focus { outline: none; border-color: #0078d4; box-shadow: 0 0 0 2px rgba(0,120,212,0.12); }
+.policy-box { background: #f7f7f7; border-radius: 6px; border: 1px solid #e0e0e0; padding: 12px; font-size: 13px; color: #555; line-height: 1.7; max-height: 180px; overflow-y: auto; margin-bottom: 14px; }
+.chk-row { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px; cursor: pointer; }
+.chk-row input[type=checkbox] { margin-top: 2px; cursor: pointer; width: 16px; height: 16px; flex-shrink: 0; }
+.chk-row span { font-size: 13px; color: #444; line-height: 1.5; }
+.btn-primary { display: block; width: 100%; padding: 13px; border-radius: 6px; border: none; background: #0078d4; color: #fff; font-size: 15px; font-weight: 600; cursor: pointer; font-family: 'Segoe UI', sans-serif; }
+.btn-primary:hover { background: #106ebe; }
+.btn-primary:disabled { background: #a0c4e8; cursor: not-allowed; }
+.btn-sec { display: block; width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #ccc; background: #fff; font-size: 14px; cursor: pointer; font-family: 'Segoe UI', sans-serif; margin-top: 10px; color: #1a1a1a; }
+.alert { border-radius: 6px; padding: 12px 16px; font-size: 14px; line-height: 1.6; margin-bottom: 12px; }
+.alert-success { background: #dff6dd; color: #1e6e1e; border: 1px solid #a3d9a3; }
+.alert-info { background: #dce9f7; color: #0a3f6e; border: 1px solid #9dc4e8; }
+.big-icon { font-size: 40px; display: block; margin-bottom: 10px; }
+.text-center { text-align: center; }
 </style>
-
-<div id="bgys-app">
-
-  <div class="tab-bar">
-    <button class="tab-btn active" onclick="bgysTab('visitor',this)">👤 Ziyaretçi girişi</button>
-    <button class="tab-btn" onclick="bgysTab('qr',this)">📱 QR bilgi</button>
-    <button class="tab-btn" onclick="bgysTab('panel',this)">🛡️ Güvenlik paneli</button>
+</head>
+<body>
+<div class="app">
+  <div class="logo-bar">
+    <h1>🏢 Firma Ziyaretçi Girişi</h1>
+    <p>BGYS Politika Onay Formu</p>
   </div>
 
-  <!-- ZİYARETÇİ FORMU -->
-  <div id="bgys-visitor" class="screen active">
-    <div id="bgys-form-area">
-      <div class="card">
-        <p class="sec-lbl">Giriş bilgileri</p>
-        <div class="fg"><label>Ad soyad</label><input type="text" id="b-name" placeholder="Adınız ve soyadınız" oninput="bgysUpdateBtn()" /></div>
-        <div class="fg"><label>TC kimlik no veya pasaport no</label><input type="text" id="b-tc" placeholder="12345678901" maxlength="11" oninput="bgysUpdateBtn()" /></div>
-        <div class="fg"><label>Firma / Kuruluş</label><input type="text" id="b-company" placeholder="Çalıştığınız firma" /></div>
-        <div class="fg"><label>Ziyaret türü</label>
-          <select id="b-type" onchange="bgysUpdateBtn()">
-            <option value="">Seçiniz...</option>
-            <option value="Ziyaretçi">Ziyaretçi</option>
-            <option value="Taşeron / Tedarikçi">Taşeron / Tedarikçi</option>
-          </select>
-        </div>
-        <div class="fg"><label>Ziyaret edeceğiniz kişi / departman</label><input type="text" id="b-contact" placeholder="Örn: Ahmet Yılmaz / İnsan Kaynakları" /></div>
-      </div>
-
-      <div class="card">
-        <p class="sec-lbl">BGYS politikaları ve kurallar</p>
-        <div class="policy-box">
-          <strong>1. Gizlilik ve bilgi güvenliği</strong><br>
-          Firma tesisi içinde gördüğünüz her türlü bilgi, belge, süreç ve sistem gizlidir. Bu bilgileri üçüncü şahıslarla paylaşmak, fotoğraflamak veya kopyalamak kesinlikle yasaktır.<br><br>
-          <strong>2. Fotoğraf ve kayıt yasağı</strong><br>
-          İzin alınmadan tesis içinde fotoğraf, video veya ses kaydı yapılamaz. Cep telefonları üretim alanlarında kamerasız konuma getirilmelidir.<br><br>
-          <strong>3. Refakatçi zorunluluğu</strong><br>
-          Ziyaretçiler ve taşeron personel, yetkili bir firma çalışanı eşliğinde hareket etmek zorundadır. Bağımsız dolaşım yasaktır.<br><br>
-          <strong>4. Kişisel koruyucu donanım (KKD)</strong><br>
-          Üretim ve teknik alanlara girerken belirtilen KKD (baret, yelek, gözlük vb.) kullanımı zorunludur.<br><br>
-          <strong>5. Acil durum prosedürleri</strong><br>
-          Yangın veya tahliye alarmı durumunda refakatçi personelin yönlendirmesine uyunuz. Toplanma noktası: Ana bina önü.<br><br>
-          <strong>6. Kişisel verilerin korunması (KVKK)</strong><br>
-          Giriş sırasında toplanan kimlik bilgileriniz yalnızca güvenlik amaçlı tutulacak ve yasal süreler dışında saklanmayacaktır. 6698 sayılı KVKK kapsamında haklarınız saklıdır.
-        </div>
-        <label class="chk-row"><input type="checkbox" id="b-c1" onchange="bgysUpdateBtn()" /><span>Yukarıdaki BGYS politikalarını okudum ve anladım.</span></label>
-        <label class="chk-row"><input type="checkbox" id="b-c2" onchange="bgysUpdateBtn()" /><span>Tesis içinde bu kurallara uymayı kabul ediyorum.</span></label>
-        <label class="chk-row"><input type="checkbox" id="b-c3" onchange="bgysUpdateBtn()" /><span>KVKK kapsamında bilgilerimin güvenlik amaçlı işlenmesine onay veriyorum.</span></label>
-      </div>
-      <button class="btn-primary" id="bgys-submit-btn" disabled onclick="bgysSubmit()">Onaylıyorum ve giriş yapıyorum</button>
-    </div>
-    <div id="bgys-result" style="display:none;"></div>
-  </div>
-
-  <!-- QR BİLGİ -->
-  <div id="bgys-qr" class="screen">
-    <div class="card text-center" style="padding: 28px 20px;">
-      <p class="sec-lbl" style="text-align:center;">Güvenlik girişi QR kodu</p>
-      <div style="border: 2px dashed #ccc; border-radius: 10px; padding: 28px; margin-bottom: 16px; display:inline-block;">
-        <svg width="100" height="100" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="4" y="4" width="28" height="28" rx="3" fill="none" stroke="#1a1a1a" stroke-width="3"/>
-          <rect x="12" y="12" width="12" height="12" rx="1" fill="#1a1a1a"/>
-          <rect x="48" y="4" width="28" height="28" rx="3" fill="none" stroke="#1a1a1a" stroke-width="3"/>
-          <rect x="56" y="12" width="12" height="12" rx="1" fill="#1a1a1a"/>
-          <rect x="4" y="48" width="28" height="28" rx="3" fill="none" stroke="#1a1a1a" stroke-width="3"/>
-          <rect x="12" y="56" width="12" height="12" rx="1" fill="#1a1a1a"/>
-          <rect x="48" y="48" width="8" height="8" rx="1" fill="#1a1a1a"/>
-          <rect x="60" y="48" width="8" height="8" rx="1" fill="#1a1a1a"/>
-          <rect x="48" y="60" width="8" height="8" rx="1" fill="#1a1a1a"/>
-          <rect x="60" y="60" width="8" height="8" rx="1" fill="#1a1a1a"/>
-        </svg>
-      </div>
-      <p style="font-size:13px; color:#555; margin-bottom:6px;">Bu sayfanın SharePoint linkini QR'a çevirin</p>
-      <p style="font-size:12px; color:#888;">qrcode-monkey.com veya qr.io sitesinden ücretsiz oluşturabilirsiniz</p>
-    </div>
+  <div id="form-area">
     <div class="card">
-      <p class="sec-lbl">Güvenlik görevlisi notu</p>
-      <p style="font-size:13px; color:#555; line-height:1.8;">
-        ✅ QR okutulduğunda ziyaretçi formu otomatik açılır.<br>
-        ✅ Daha önce onay vermiş kişiler 1 yıl boyunca tekrar onay vermez.<br>
-        ✅ Her onay kaydı güvenlik paneline düşer.<br>
-        ✅ Taşeron personel de aynı formu kullanır, türü seçer.<br>
-        ⚠️ Kayıtlar bu bilgisayarda saklanır. Farklı bilgisayardan açılırsa kayıtlar görünmez.
-      </p>
+      <p class="sec-lbl">Giriş bilgileri</p>
+      <div class="fg"><label>Ad soyad *</label><input type="text" id="v-name" placeholder="Adınız ve soyadınız" oninput="updateBtn()" /></div>
+      <div class="fg"><label>TC kimlik no veya pasaport no *</label><input type="text" id="v-tc" placeholder="12345678901" maxlength="11" oninput="updateBtn()" /></div>
+      <div class="fg"><label>Firma / Kuruluş</label><input type="text" id="v-company" placeholder="Çalıştığınız firma" /></div>
+      <div class="fg"><label>Ziyaret türü *</label>
+        <select id="v-type" onchange="updateBtn()">
+          <option value="">Seçiniz...</option>
+          <option value="Ziyaretçi">Ziyaretçi</option>
+          <option value="Taşeron / Tedarikçi">Taşeron / Tedarikçi</option>
+        </select>
+      </div>
+      <div class="fg"><label>Ziyaret edeceğiniz kişi / departman</label><input type="text" id="v-contact" placeholder="Örn: Ahmet Yılmaz / İnsan Kaynakları" /></div>
     </div>
-  </div>
 
-  <!-- GÜVENLİK PANELİ -->
-  <div id="bgys-panel" class="screen">
-    <div class="stat-grid">
-      <div class="stat-card"><div class="stat-num" id="b-stotal">0</div><div class="stat-lbl">Toplam kayıt</div></div>
-      <div class="stat-card"><div class="stat-num" id="b-stoday">0</div><div class="stat-lbl">Bugün</div></div>
-      <div class="stat-card"><div class="stat-num" id="b-srenew">0</div><div class="stat-lbl">Yenileme gerek</div></div>
-    </div>
     <div class="card">
-      <p class="sec-lbl">Onay kayıtları</p>
-      <input class="search-bar" type="text" placeholder="İsim veya TC ile ara..." id="b-search" oninput="bgysRenderLogs()" />
-      <div id="bgys-log-list"><p style="font-size:13px;color:#999;text-align:center;padding:16px 0;">Henüz kayıt yok.</p></div>
+      <p class="sec-lbl">BGYS politikaları ve kurallar</p>
+      <div class="policy-box">
+        <strong>1. Gizlilik ve bilgi güvenliği</strong><br>
+        Firma tesisi içinde gördüğünüz her türlü bilgi, belge, süreç ve sistem gizlidir. Bu bilgileri üçüncü şahıslarla paylaşmak, fotoğraflamak veya kopyalamak kesinlikle yasaktır.<br><br>
+        <strong>2. Fotoğraf ve kayıt yasağı</strong><br>
+        İzin alınmadan tesis içinde fotoğraf, video veya ses kaydı yapılamaz. Cep telefonları üretim alanlarında kamerasız konuma getirilmelidir.<br><br>
+        <strong>3. Refakatçi zorunluluğu</strong><br>
+        Ziyaretçiler ve taşeron personel, yetkili bir firma çalışanı eşliğinde hareket etmek zorundadır. Bağımsız dolaşım yasaktır.<br><br>
+        <strong>4. Kişisel koruyucu donanım (KKD)</strong><br>
+        Üretim ve teknik alanlara girerken belirtilen KKD (baret, yelek, gözlük vb.) kullanımı zorunludur.<br><br>
+        <strong>5. Acil durum prosedürleri</strong><br>
+        Yangın veya tahliye alarmı durumunda refakatçi personelin yönlendirmesine uyunuz. Toplanma noktası: Ana bina önü.<br><br>
+        <strong>6. Kişisel verilerin korunması (KVKK)</strong><br>
+        Giriş sırasında toplanan kimlik bilgileriniz yalnızca güvenlik amaçlı tutulacak ve yasal süreler dışında saklanmayacaktır. 6698 sayılı KVKK kapsamında haklarınız saklıdır.
+      </div>
+      <label class="chk-row"><input type="checkbox" id="c1" onchange="updateBtn()" /><span>Yukarıdaki BGYS politikalarını okudum ve anladım.</span></label>
+      <label class="chk-row"><input type="checkbox" id="c2" onchange="updateBtn()" /><span>Tesis içinde bu kurallara uymayı kabul ediyorum.</span></label>
+      <label class="chk-row"><input type="checkbox" id="c3" onchange="updateBtn()" /><span>KVKK kapsamında bilgilerimin güvenlik amaçlı işlenmesine onay veriyorum.</span></label>
     </div>
+    <button class="btn-primary" id="submit-btn" disabled onclick="submitForm()">Onaylıyorum ve giriş yapıyorum</button>
   </div>
 
+  <div id="result-area" style="display:none;"></div>
 </div>
 
 <script>
-(function() {
-  var YEAR = 365*24*60*60*1000;
-  var KEY = 'bgys_v1_records';
+var YEAR = 365*24*60*60*1000;
+var KEY = 'bgys_v1_records';
 
-  function load() {
-    try { return JSON.parse(localStorage.getItem(KEY)) || []; } catch(e) { return []; }
-  }
-  function save(r) {
-    try { localStorage.setItem(KEY, JSON.stringify(r)); } catch(e) {}
-  }
+function load() { try { return JSON.parse(localStorage.getItem(KEY)) || []; } catch(e) { return []; } }
+function save(r) { try { localStorage.setItem(KEY, JSON.stringify(r)); } catch(e) {} }
 
-  window.bgysTab = function(t, btn) {
-    document.querySelectorAll('#bgys-app .screen').forEach(function(s){ s.classList.remove('active'); });
-    document.querySelectorAll('#bgys-app .tab-btn').forEach(function(b){ b.classList.remove('active'); });
-    document.getElementById('bgys-' + t).classList.add('active');
-    btn.classList.add('active');
-    if (t === 'panel') { bgysStats(); bgysRenderLogs(); }
-  };
+function updateBtn() {
+  var ok = document.getElementById('v-name').value.trim() &&
+           document.getElementById('v-tc').value.trim() &&
+           document.getElementById('v-type').value &&
+           document.getElementById('c1').checked &&
+           document.getElementById('c2').checked &&
+           document.getElementById('c3').checked;
+  document.getElementById('submit-btn').disabled = !ok;
+}
 
-  window.bgysUpdateBtn = function() {
-    var ok = document.getElementById('b-name').value.trim() &&
-             document.getElementById('b-tc').value.trim() &&
-             document.getElementById('b-type').value &&
-             document.getElementById('b-c1').checked &&
-             document.getElementById('b-c2').checked &&
-             document.getElementById('b-c3').checked;
-    document.getElementById('bgys-submit-btn').disabled = !ok;
-  };
+function submitForm() {
+  var name = document.getElementById('v-name').value.trim();
+  var tc = document.getElementById('v-tc').value.trim();
+  var company = document.getElementById('v-company').value.trim();
+  var type = document.getElementById('v-type').value;
+  var contact = document.getElementById('v-contact').value.trim();
+  var now = Date.now();
+  var records = load();
+  var idx = records.findIndex(function(r){ return r.tc === tc; });
+  var existing = idx >= 0 ? records[idx] : null;
+  var needsRenewal = !existing || (now - existing.lastApproval > YEAR);
 
-  window.bgysSubmit = function() {
-    var name = document.getElementById('b-name').value.trim();
-    var tc = document.getElementById('b-tc').value.trim();
-    var company = document.getElementById('b-company').value.trim();
-    var type = document.getElementById('b-type').value;
-    var contact = document.getElementById('b-contact').value.trim();
-    var now = Date.now();
-    var records = load();
-    var idx = records.findIndex(function(r){ return r.tc === tc; });
-    var existing = idx >= 0 ? records[idx] : null;
-    var needsRenewal = !existing || (now - existing.lastApproval > YEAR);
-
-    if (!needsRenewal) {
-      var days = Math.floor((now - existing.lastApproval) / (24*60*60*1000));
-      var renewDate = new Date(existing.lastApproval + YEAR).toLocaleDateString('tr-TR');
-      bgysShowResult('info', name, 'Daha önce onay verdiniz',
-        'Son onay tarihiniz: ' + bgysFormatDate(existing.lastApproval) +
-        '<br>Yenileme tarihiniz: ' + renewDate + ' (' + (365 - days) + ' gün kaldı)');
-      return;
-    }
-
-    if (existing) {
-      records[idx] = { tc: tc, name: name, company: company, type: type, contact: contact, lastApproval: now, entries: (existing.entries||1)+1 };
-    } else {
-      records.push({ tc: tc, name: name, company: company, type: type, contact: contact, lastApproval: now, entries: 1 });
-    }
-    save(records);
-    bgysShowResult('success', name, 'Onay kaydedildi',
-      'Giriş kaydınız oluşturuldu.<br>Sonraki gelişlerinizde 1 yıl boyunca yeniden onay gerekmez.');
-  };
-
-  function bgysShowResult(kind, name, title, body) {
-    document.getElementById('bgys-form-area').style.display = 'none';
-    var el = document.getElementById('bgys-result');
-    el.style.display = 'block';
-    var icon = kind === 'success' ? '✅' : 'ℹ️';
-    var cls = kind === 'success' ? 'alert-success' : 'alert-info';
-    el.innerHTML = '<div class="card text-center" style="padding:28px 20px;">' +
-      '<span class="big-icon">' + icon + '</span>' +
-      '<p style="font-size:16px;font-weight:700;margin-bottom:8px;">' + name + '</p>' +
-      '<p style="font-size:14px;font-weight:600;margin-bottom:14px;">' + title + '</p>' +
-      '<div class="alert ' + cls + '">' + body + '</div>' +
-      '<button class="btn-sec" onclick="bgysReset()">Yeni ziyaretçi</button>' +
-      '</div>';
+  if (!needsRenewal) {
+    var days = Math.floor((now - existing.lastApproval) / (24*60*60*1000));
+    var renewDate = new Date(existing.lastApproval + YEAR).toLocaleDateString('tr-TR');
+    showResult('info', name, 'Daha önce onay verdiniz',
+      'Son onay tarihiniz: ' + fmtDate(existing.lastApproval) +
+      '<br>Yenileme tarihiniz: ' + renewDate + ' (' + (365-days) + ' gün kaldı)');
+    return;
   }
 
-  window.bgysReset = function() {
-    document.getElementById('bgys-form-area').style.display = 'block';
-    document.getElementById('bgys-result').style.display = 'none';
-    ['b-name','b-tc','b-company','b-contact'].forEach(function(id){ document.getElementById(id).value=''; });
-    document.getElementById('b-type').value = '';
-    ['b-c1','b-c2','b-c3'].forEach(function(id){ document.getElementById(id).checked=false; });
-    document.getElementById('bgys-submit-btn').disabled = true;
-  };
-
-  function bgysStats() {
-    var records = load();
-    var now = Date.now();
-    var todayStart = new Date(); todayStart.setHours(0,0,0,0);
-    document.getElementById('b-stotal').textContent = records.length;
-    document.getElementById('b-stoday').textContent = records.filter(function(r){ return r.lastApproval >= todayStart.getTime(); }).length;
-    document.getElementById('b-srenew').textContent = records.filter(function(r){ return now - r.lastApproval > YEAR; }).length;
+  if (existing) {
+    records[idx] = { tc:tc, name:name, company:company, type:type, contact:contact, lastApproval:now, entries:(existing.entries||1)+1 };
+  } else {
+    records.push({ tc:tc, name:name, company:company, type:type, contact:contact, lastApproval:now, entries:1 });
   }
+  save(records);
+  showResult('success', name, 'Onay kaydedildi', 'Giriş kaydınız oluşturuldu.<br>Sonraki gelişlerinizde 1 yıl boyunca yeniden onay gerekmez.');
+}
 
-  window.bgysRenderLogs = function() {
-    var q = (document.getElementById('b-search').value||'').toLowerCase();
-    var records = load();
-    var now = Date.now();
-    var filtered = records.filter(function(r){ return !q || r.name.toLowerCase().includes(q) || r.tc.includes(q); });
-    filtered.sort(function(a,b){ return b.lastApproval - a.lastApproval; });
-    var el = document.getElementById('bgys-log-list');
-    if (!filtered.length) {
-      el.innerHTML = '<p style="font-size:13px;color:#999;text-align:center;padding:16px 0;">' + (q?'Sonuç bulunamadı.':'Henüz kayıt yok.') + '</p>';
-      return;
-    }
-    el.innerHTML = filtered.map(function(r) {
-      var expired = now - r.lastApproval > YEAR;
-      var statusBadge = expired ? '<span class="badge badge-warn">⚠️ Yenileme gerek</span>' : '<span class="badge badge-ok">✓ Geçerli</span>';
-      var typeBadge = '<span class="badge badge-type">' + (r.type||'—') + '</span>';
-      var ini = r.name.trim().split(' ');
-      var av = (ini[0][0]+(ini[1]?ini[1][0]:'')).toUpperCase();
-      return '<div class="log-row">' +
-        '<div style="display:flex;align-items:center;gap:10px;">' +
-        '<div class="avatar">' + av + '</div>' +
-        '<div><div class="log-name">' + r.name + ' ' + typeBadge + '</div>' +
-        '<div class="log-meta">' + r.tc + ' · ' + (r.company||'—') + ' · ' + (r.entries||1) + ' giriş</div>' +
-        '<div class="log-meta">Son onay: ' + bgysFormatDate(r.lastApproval) + '</div></div></div>' +
-        '<div style="text-align:right;flex-shrink:0;">' + statusBadge + '</div></div>';
-    }).join('');
-  };
+function showResult(kind, name, title, body) {
+  document.getElementById('form-area').style.display = 'none';
+  var el = document.getElementById('result-area');
+  el.style.display = 'block';
+  el.innerHTML = '<div class="card text-center" style="padding:32px 20px;">' +
+    '<span class="big-icon">' + (kind==='success'?'✅':'ℹ️') + '</span>' +
+    '<p style="font-size:17px;font-weight:700;margin-bottom:8px;">' + name + '</p>' +
+    '<p style="font-size:14px;font-weight:600;margin-bottom:14px;">' + title + '</p>' +
+    '<div class="alert alert-' + kind + '">' + body + '</div>' +
+    '<button class="btn-sec" onclick="resetForm()">Yeni ziyaretçi</button>' +
+    '</div>';
+}
 
-  function bgysFormatDate(ts) {
-    return new Date(ts).toLocaleString('tr-TR', {day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
-  }
-})();
+function resetForm() {
+  document.getElementById('form-area').style.display = 'block';
+  document.getElementById('result-area').style.display = 'none';
+  ['v-name','v-tc','v-company','v-contact'].forEach(function(id){ document.getElementById(id).value=''; });
+  document.getElementById('v-type').value = '';
+  ['c1','c2','c3'].forEach(function(id){ document.getElementById(id).checked=false; });
+  document.getElementById('submit-btn').disabled = true;
+}
 </script>
+</body>
+</html>

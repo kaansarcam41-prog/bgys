@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Güvenlik Paneli</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
+body { background: #f3f3f3; min-height: 100vh; padding: 24px 16px; }
+.app { max-width: 700px; margin: 0 auto; }
+.login-wrap { display: flex; align-items: center; justify-content: center; min-height: 80vh; }
+.card { background: #fff; border: 1px solid #e0e0e0; border-radius: 10px; padding: 18px 20px; margin-bottom: 14px; }
+.sec-lbl { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px; font-weight: 600; }
+.fg { margin-bottom: 12px; }
+.fg label { display: block; font-size: 13px; color: #555; margin-bottom: 5px; }
+.fg input { width: 100%; padding: 9px 11px; border-radius: 6px; border: 1px solid #ccc; font-size: 14px; font-family: 'Segoe UI', sans-serif; }
+.fg input:focus { outline: none; border-color: #0078d4; }
+.btn-primary { display: block; width: 100%; padding: 12px; border-radius: 6px; border: none; background: #0078d4; color: #fff; font-size: 14px; font-weight: 600; cursor: pointer; font-family: 'Segoe UI', sans-serif; }
+.btn-primary:hover { background: #106ebe; }
+.btn-sm { padding: 6px 14px; border-radius: 6px; border: 1px solid #ccc; background: #fff; font-size: 13px; cursor: pointer; font-family: 'Segoe UI', sans-serif; color: #555; }
+.btn-sm:hover { background: #f0f0f0; }
+.alert-err { background: #fde7e9; color: #a4000f; border: 1px solid #f5c2c7; border-radius: 6px; padding: 10px 14px; font-size: 13px; margin-bottom: 12px; }
+.stat-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 14px; }
+.stat-card { background: #f7f7f7; border-radius: 8px; padding: 12px 14px; }
+.stat-num { font-size: 22px; font-weight: 700; color: #1a1a1a; }
+.stat-lbl { font-size: 12px; color: #888; margin-top: 2px; }
+.log-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f0f0f0; gap: 8px; }
+.log-row:last-child { border-bottom: none; }
+.avatar { width: 36px; height: 36px; border-radius: 50%; background: #dce9f7; display: inline-flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: #0a3f6e; flex-shrink: 0; }
+.log-name { font-size: 14px; font-weight: 600; color: #1a1a1a; }
+.log-meta { font-size: 12px; color: #888; margin-top: 2px; }
+.badge { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 99px; font-weight: 600; }
+.badge-ok { background: #dff6dd; color: #1e6e1e; }
+.badge-warn { background: #fff4ce; color: #7a5900; }
+.badge-type { background: #dce9f7; color: #0a3f6e; }
+.search-bar { width: 100%; padding: 8px 11px; border-radius: 6px; border: 1px solid #ccc; font-size: 14px; margin-bottom: 12px; font-family: 'Segoe UI', sans-serif; }
+.header-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+.header-bar h2 { font-size: 16px; font-weight: 700; color: #1a1a1a; }
+</style>
+</head>
+<body>
+
+<!-- GİRİŞ EKRANI -->
+<div id="login-screen" class="login-wrap">
+  <div style="width:100%;max-width:340px;">
+    <div class="card">
+      <p style="text-align:center;font-size:28px;margin-bottom:8px;">🛡️</p>
+      <p style="text-align:center;font-size:16px;font-weight:700;margin-bottom:4px;">Güvenlik Paneli</p>
+      <p style="text-align:center;font-size:13px;color:#888;margin-bottom:20px;">Yetkili personel girişi</p>
+      <div id="login-err" style="display:none;" class="alert-err">Şifre hatalı, tekrar deneyin.</div>
+      <div class="fg"><label>Şifre</label><input type="password" id="pwd-input" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()" /></div>
+      <button class="btn-primary" onclick="doLogin()">Giriş yap</button>
+    </div>
+  </div>
+</div>
+
+<!-- PANEL -->
+<div id="panel-screen" class="app" style="display:none;">
+  <div class="header-bar">
+    <h2>🛡️ Güvenlik Paneli</h2>
+    <button class="btn-sm" onclick="doLogout()">Çıkış yap</button>
+  </div>
+
+  <div class="stat-grid">
+    <div class="stat-card"><div class="stat-num" id="s-total">0</div><div class="stat-lbl">Toplam kayıt</div></div>
+    <div class="stat-card"><div class="stat-num" id="s-today">0</div><div class="stat-lbl">Bugün</div></div>
+    <div class="stat-card"><div class="stat-num" id="s-renew">0</div><div class="stat-lbl">Yenileme gerek</div></div>
+  </div>
+
+  <div class="card">
+    <p class="sec-lbl">Onay kayıtları</p>
+    <input class="search-bar" type="text" placeholder="İsim veya TC ile ara..." id="search-inp" oninput="renderLogs()" />
+    <div id="log-list"><p style="font-size:13px;color:#999;text-align:center;padding:16px 0;">Henüz kayıt yok.</p></div>
+  </div>
+</div>
+
+<script>
+var YEAR = 365*24*60*60*1000;
+var KEY = 'bgys_v1_records';
+var PWD = 'Sarcam2024!'; // ŞİFREYİ BURADAN DEĞİŞTİRİN
+
+function load() { try { return JSON.parse(localStorage.getItem(KEY)) || []; } catch(e) { return []; } }
+
+function doLogin() {
+  var pwd = document.getElementById('pwd-input').value;
+  if (pwd === PWD) {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('panel-screen').style.display = 'block';
+    renderStats();
+    renderLogs();
+  } else {
+    document.getElementById('login-err').style.display = 'block';
+    document.getElementById('pwd-input').value = '';
+  }
+}
+
+function doLogout() {
+  document.getElementById('panel-screen').style.display = 'none';
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('pwd-input').value = '';
+  document.getElementById('login-err').style.display = 'none';
+}
+
+function renderStats() {
+  var records = load();
+  var now = Date.now();
+  var todayStart = new Date(); todayStart.setHours(0,0,0,0);
+  document.getElementById('s-total').textContent = records.length;
+  document.getElementById('s-today').textContent = records.filter(function(r){ return r.lastApproval >= todayStart.getTime(); }).length;
+  document.getElementById('s-renew').textContent = records.filter(function(r){ return now - r.lastApproval > YEAR; }).length;
+}
+
+function renderLogs() {
+  var q = (document.getElementById('search-inp').value||'').toLowerCase();
+  var records = load();
+  var now = Date.now();
+  var filtered = records.filter(function(r){ return !q || r.name.toLowerCase().includes(q) || r.tc.includes(q); });
+  filtered.sort(function(a,b){ return b.lastApproval - a.lastApproval; });
+  var el = document.getElementById('log-list');
+  if (!filtered.length) {
+    el.innerHTML = '<p style="font-size:13px;color:#999;text-align:center;padding:16px 0;">' + (q?'Sonuç bulunamadı.':'Henüz kayıt yok.') + '</p>';
+    return;
+  }
+  el.innerHTML = filtered.map(function(r) {
+    var expired = now - r.lastApproval > YEAR;
+    var statusBadge = expired ? '<span class="badge badge-warn">⚠️ Yenileme gerek</span>' : '<span class="badge badge-ok">✓ Geçerli</span>';
+    var typeBadge = '<span class="badge badge-type">' + (r.type||'—') + '</span>';
+    var ini = r.name.trim().split(' ');
+    var av = (ini[0][0]+(ini[1]?ini[1][0]:'')).toUpperCase();
+    return '<div class="log-row">' +
+      '<div style="display:flex;align-items:center;gap:10px;">' +
+      '<div class="avatar">' + av + '</div>' +
+      '<div><div class="log-name">' + r.name + ' ' + typeBadge + '</div>' +
+      '<div class="log-meta">' + r.tc + ' · ' + (r.company||'—') + ' · ' + (r.entries||1) + ' giriş</div>' +
+      '<div class="log-meta">Son onay: ' + fmtDate(r.lastApproval) + '</div></div></div>' +
+      '<div style="text-align:right;flex-shrink:0;">' + statusBadge + '</div></div>';
+  }).join('');
+}
+
+function fmtDate(ts) {
+  return new Date(ts).toLocaleString('tr-TR', {day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
+}
+</script>
+</body>
+</html>
